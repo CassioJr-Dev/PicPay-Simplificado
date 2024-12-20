@@ -1,12 +1,12 @@
 import { randomUUID as uuidV4 } from 'node:crypto'
 
-export type ToJSONReturnType<Props> = {
+export type ToJSONReturnType<Props = Record<string, any>> = {
   id: string
   created_at: Date
   updated_at: Date
 } & Props
 
-export abstract class Entity<Props = any> {
+export abstract class Entity<Props = Record<string, any>> {
   protected readonly _id: string
   protected readonly _props: Props
   protected readonly _created_at: Date
