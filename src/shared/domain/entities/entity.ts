@@ -14,9 +14,25 @@ export abstract class Entity<Props = Record<string, any>> {
 
   constructor(props: Props, id?: string, created_at?: Date, updated_at?: Date) {
     this._props = props
-    this._id = id || uuidV4()
+    this._id = this.isValidUUID(id)
     this._created_at = created_at || this.toDate()
     this._updated_at = updated_at || this.toDate()
+  }
+
+  get id() {
+    return this._id
+  }
+
+  get props() {
+    return this._props
+  }
+
+  get created_at() {
+    return this._created_at
+  }
+
+  get updated_at() {
+    return this._updated_at
   }
 
   toJSON(): ToJSONReturnType<Props> {
@@ -33,5 +49,18 @@ export abstract class Entity<Props = Record<string, any>> {
     newDate.setHours(newDate.getUTCHours())
 
     return newDate
+  }
+
+  isValidUUID(uuid: string): string {
+    const regex =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89a-f]{1}[0-9a-f]{3}-[0-9a-f]{12}$/i
+
+    const validate = regex.test(uuid)
+
+    if (validate) {
+      return uuid
+    }
+
+    return uuidV4()
   }
 }
