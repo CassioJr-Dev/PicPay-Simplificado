@@ -4,8 +4,9 @@ import { UserType } from '../enums/user.type.enum'
 export type UserProps = {
   firstName: string
   lastName: string
-  cpf: string
+  document: string
   email: string
+  balance: number
   password: string
   userType: UserType
 }
@@ -31,12 +32,12 @@ export class UserEntity extends Entity<UserProps> {
     this.props.lastName = value
   }
 
-  get cpf() {
-    return this.props.cpf
+  get document() {
+    return this.props.document
   }
 
-  private set cpf(value: string) {
-    this.props.lastName = value
+  private set document(value: string) {
+    this.props.document = value
   }
 
   get email() {
@@ -45,6 +46,14 @@ export class UserEntity extends Entity<UserProps> {
 
   private set email(value: string) {
     this.props.email = value
+  }
+
+  get balance() {
+    return this.props.balance
+  }
+
+  private set balance(value: number) {
+    this.props.balance = value
   }
 
   get password() {
