@@ -3,7 +3,6 @@ import { randomUUID as uuidV4 } from 'node:crypto'
 export type ToJSONReturnType<Props = Record<string, any>> = {
   id: string
   created_at: Date
-  updated_at: Date
 } & Props
 
 export abstract class Entity<Props = Record<string, any>> {
@@ -12,11 +11,10 @@ export abstract class Entity<Props = Record<string, any>> {
   protected readonly _created_at: Date
   protected readonly _updated_at: Date
 
-  constructor(props: Props, id?: string, created_at?: Date, updated_at?: Date) {
+  constructor(props: Props, id?: string, created_at?: Date) {
     this._props = props
     this._id = this.isValidUUID(id)
     this._created_at = created_at || this.toDate()
-    this._updated_at = updated_at || this.toDate()
   }
 
   get id() {
@@ -31,16 +29,11 @@ export abstract class Entity<Props = Record<string, any>> {
     return this._created_at
   }
 
-  get updated_at() {
-    return this._updated_at
-  }
-
   toJSON(): ToJSONReturnType<Props> {
     return {
       id: this._id,
       ...this._props,
       created_at: this._created_at,
-      updated_at: this._updated_at,
     }
   }
 
