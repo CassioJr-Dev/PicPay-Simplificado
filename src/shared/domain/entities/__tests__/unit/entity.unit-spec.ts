@@ -28,14 +28,12 @@ describe('Entity unit tests', () => {
     const props = { prop1: 'value1', prop2: 15 }
     const id = '698b0c7e-c68b-4cfd-99dd-aac08024be8d'
     const created_at = new Date()
-    const updated_at = new Date()
-    const entity = new StubEntity(props, id, created_at, updated_at)
+    const entity = new StubEntity(props, id, created_at)
 
     expect(entity.toJSON()).toStrictEqual({
       id,
       ...props,
       created_at,
-      updated_at,
     })
   })
 
@@ -45,7 +43,5 @@ describe('Entity unit tests', () => {
 
     expect(entity.created_at).toBeDefined()
     expect(entity.created_at).toBeInstanceOf(Date)
-    expect(entity.updated_at).toBeDefined()
-    expect(entity.updated_at).toBeInstanceOf(Date)
   })
 })
