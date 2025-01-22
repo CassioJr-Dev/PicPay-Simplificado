@@ -27,13 +27,13 @@ describe('Entity unit tests', () => {
   it('Should convert a entity to a Javascript Object', () => {
     const props = { prop1: 'value1', prop2: 15 }
     const id = '698b0c7e-c68b-4cfd-99dd-aac08024be8d'
-    const created_at = new Date()
-    const entity = new StubEntity(props, id, created_at)
+    const createdAt = new Date()
+    const entity = new StubEntity(props, id, createdAt)
 
     expect(entity.toJSON()).toStrictEqual({
       id,
       ...props,
-      created_at,
+      createdAt,
     })
   })
 
@@ -41,7 +41,7 @@ describe('Entity unit tests', () => {
     const props = { prop1: 'value1', prop2: 15 }
     const entity = new StubEntity(props)
 
-    expect(entity.created_at).toBeDefined()
-    expect(entity.created_at).toBeInstanceOf(Date)
+    expect(entity.createdAt).toBeDefined()
+    expect(entity.createdAt).toBeInstanceOf(Date)
   })
 })
