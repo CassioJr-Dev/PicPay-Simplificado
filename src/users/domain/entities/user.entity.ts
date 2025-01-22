@@ -1,5 +1,7 @@
 import { Entity } from '@/shared/domain/entities/entity'
 import { UserType } from '../enums/user.type.enum'
+import { UserValidatorFactory } from '../validators/user.validator'
+import { EntityValidationError } from '@/shared/domain/errors/validation-error'
 
 export type UserProps = {
   firstName: string
@@ -9,18 +11,33 @@ export type UserProps = {
   balance: number
   password: string
   userType: UserType
+  createdAt?: Date
 }
 
 export class UserEntity extends Entity<UserProps> {
   constructor(props: UserProps, id?: string) {
+    UserEntity.validate(props)
     super(props, id)
   }
 
-  get firtsName() {
+  updateProperty(user: Partial<UserProps>) {
+    UserEntity.validate({
+      ...this.props,
+      ...user,
+    })
+
+    for (const key in user) {
+      if (user[key] !== undefined) {
+        ;(this.props as any)[key] = user[key]
+      }
+    }
+  }
+
+  get firstName() {
     return this.props.firstName
   }
 
-  private set firtsName(value: string) {
+  private set firstName(value: string) {
     this.props.firstName = value
   }
 
@@ -70,5 +87,13 @@ export class UserEntity extends Entity<UserProps> {
 
   private set userType(value: UserType) {
     this.props.userType = value
+  }
+
+  static validate(props: UserProps) {
+    const validator = UserValidatorFactory.create()
+    const isValid = validator.validate(props)
+    if (!isValid) {
+      throw new EntityValidationError()
+    }
   }
 }

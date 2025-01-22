@@ -38,7 +38,6 @@ export class UserRules {
   @IsNotEmpty()
   email: string
 
-  @MaxLength(255)
   @IsNumber()
   @IsNotEmpty()
   balance: number
