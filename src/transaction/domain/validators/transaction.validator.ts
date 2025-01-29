@@ -11,11 +11,11 @@ export class TransactionRules {
   @MaxLength(255)
   @IsString()
   @IsNotEmpty()
-  sender: string
+  senderId: string
 
   @IsString()
   @IsNotEmpty()
-  receiver: string
+  receiverId: string
 
   constructor(userProps: TransactionProps) {
     Object.assign(this, { ...userProps })

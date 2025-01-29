@@ -2,8 +2,8 @@ import { Entity } from '@/shared/domain/entities/entity'
 
 export type TransactionProps = {
   amount: number
-  sender: string
-  receiver: string
+  senderId: string
+  receiverId: string
 }
 
 export class TransactionrEntity extends Entity<TransactionProps> {
@@ -19,19 +19,19 @@ export class TransactionrEntity extends Entity<TransactionProps> {
     this.props.amount = value
   }
 
-  get sender() {
-    return this.props.sender
+  get senderId() {
+    return this.props.senderId
   }
 
-  private set sender(value: string) {
-    this.props.sender = value
+  private set senderId(value: string) {
+    this.props.senderId = value
   }
 
-  get receiver() {
-    return this.props.receiver
+  get receiverId() {
+    return this.props.receiverId
   }
 
-  private set receiver(value: string) {
-    this.props.receiver = value
+  private set receiverId(value: string) {
+    this.props.receiverId = value
   }
 }
