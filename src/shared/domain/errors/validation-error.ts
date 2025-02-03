@@ -1,6 +1,6 @@
 export class EntityValidationError extends Error {
-  constructor() {
-    super('Entity Validation Error')
+  constructor(message: string = 'Entity Validation Error') {
+    super(message)
     this.name = 'EntityValidationError'
   }
 }
