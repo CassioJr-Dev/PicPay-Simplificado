@@ -10,7 +10,6 @@ type Props = {
   balance?: number
   password?: string
   userType?: UserType
-  createdAt?: Date
 }
 
 export function UserDataBuilder(props: Props): UserProps {
@@ -22,6 +21,5 @@ export function UserDataBuilder(props: Props): UserProps {
     balance: props.balance ?? Number(faker.finance.amount({ min: 0.1 })),
     password: props.password ?? faker.internet.password(),
     userType: props.userType ?? UserType.COMMON,
-    createdAt: props.createdAt ?? new Date(),
   }
 }

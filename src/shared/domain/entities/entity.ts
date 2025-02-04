@@ -9,7 +9,6 @@ export abstract class Entity<Props = Record<string, any>> {
   protected readonly _id: string
   protected readonly _props: Props
   protected readonly _createdAt: Date
-  protected readonly _updated_at: Date
 
   constructor(props: Props, id?: string, createdAt?: Date) {
     this._props = props

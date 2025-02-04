@@ -11,13 +11,12 @@ export type UserProps = {
   balance: number
   password: string
   userType: UserType
-  createdAt?: Date
 }
 
 export class UserEntity extends Entity<UserProps> {
-  constructor(props: UserProps, id?: string) {
+  constructor(props: UserProps, id?: string, createdAt?: Date) {
     UserEntity.validate(props)
-    super(props, id)
+    super(props, id, createdAt)
   }
 
   updateProperty(user: Partial<UserProps>) {

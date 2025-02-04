@@ -20,7 +20,7 @@ export class UserModelMapper {
     }
 
     try {
-      return new UserEntity(data, model.id)
+      return new UserEntity(data, model.id, model.createdAt)
     } catch {
       throw new EntityValidationError('An entity not be loaded')
     }

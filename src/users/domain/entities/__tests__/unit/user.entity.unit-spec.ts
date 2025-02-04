@@ -19,7 +19,6 @@ describe('UserEntity unit tests', () => {
     expect(sut.props.balance).toEqual(props.balance)
     expect(sut.props.password).toEqual(props.password)
     expect(sut.props.userType).toEqual(props.userType)
-    expect(sut.props.createdAt).toBeInstanceOf(Date)
   })
   it('Getter of firstName field', () => {
     expect(sut.firstName).toBeDefined()
