@@ -13,6 +13,7 @@ export class TransactionRules {
   @IsNotEmpty()
   senderId: string
 
+  @MaxLength(255)
   @IsString()
   @IsNotEmpty()
   receiverId: string

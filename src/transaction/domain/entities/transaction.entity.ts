@@ -1,4 +1,6 @@
 import { Entity } from '@/shared/domain/entities/entity'
+import { TransactionValidatorFactory } from '../validators/transaction.validator'
+import { EntityValidationError } from '@/shared/domain/errors/validation-error'
 
 export type TransactionProps = {
   amount: number
@@ -6,9 +8,23 @@ export type TransactionProps = {
   receiverId: string
 }
 
-export class TransactionrEntity extends Entity<TransactionProps> {
+export class TransactionEntity extends Entity<TransactionProps> {
   constructor(props: TransactionProps, id?: string) {
+    TransactionEntity.validate(props)
     super(props, id)
+  }
+
+  updateProperty(transaction: Partial<TransactionProps>) {
+    TransactionEntity.validate({
+      ...this.props,
+      ...transaction,
+    })
+
+    for (const key in transaction) {
+      if (transaction[key] !== undefined) {
+        ;(this.props as any)[key] = transaction[key]
+      }
+    }
   }
 
   get amount() {
@@ -33,5 +49,13 @@ export class TransactionrEntity extends Entity<TransactionProps> {
 
   private set receiverId(value: string) {
     this.props.receiverId = value
+  }
+
+  static validate(props: TransactionProps) {
+    const validator = TransactionValidatorFactory.create()
+    const isValid = validator.validate(props)
+    if (!isValid) {
+      throw new EntityValidationError()
+    }
   }
 }
