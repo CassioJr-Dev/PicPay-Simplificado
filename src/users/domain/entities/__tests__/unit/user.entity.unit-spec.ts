@@ -109,8 +109,8 @@ describe('UserEntity unit tests', () => {
   })
 
   it('Should update a property', () => {
-    expect(UserEntity.validate).toHaveBeenCalled()
     sut.updateProperty({ firstName: 'other name', email: 'a@a.com' })
+    expect(UserEntity.validate).toHaveBeenCalledTimes(2)
     expect(sut.props.firstName).toEqual('other name')
     expect(sut.props.email).toEqual('a@a.com')
   })
