@@ -9,9 +9,9 @@ export type TransactionProps = {
 }
 
 export class TransactionEntity extends Entity<TransactionProps> {
-  constructor(props: TransactionProps, id?: string) {
+  constructor(props: TransactionProps, id?: string, createdAt?: Date) {
     TransactionEntity.validate(props)
-    super(props, id)
+    super(props, id, createdAt)
   }
 
   updateProperty(transaction: Partial<TransactionProps>) {
