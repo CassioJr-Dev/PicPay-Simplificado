@@ -3,9 +3,22 @@ import { UserEntity } from '@/users/domain/entities/user.entity'
 import { IUserRepositoryInterface } from '@/users/domain/repositories/user.repository'
 import { UserModelMapper } from '../models/user.model.mapper'
 import { NotFoundError } from '@/shared/domain/errors/not-found-error'
+import { ConflictError } from '@/shared/domain/errors/conflict-error'
 
 export class UserPrismaRepository implements IUserRepositoryInterface {
   constructor(private prismaService: PrismaService) {}
+
+  async documentExists(document: string): Promise<boolean> {
+    const findUser = await this.prismaService.user.findUnique({
+      where: { document },
+    })
+
+    if (findUser) {
+      return true
+    }
+
+    return false
+  }
 
   async findByEmail(email: string): Promise<UserEntity> {
     const findUser = await this.prismaService.user.findUnique({
@@ -28,6 +41,17 @@ export class UserPrismaRepository implements IUserRepositoryInterface {
   }
 
   async insert(entity: UserEntity): Promise<void> {
+    const documentExists = await this.documentExists(entity.document)
+    const emailExists = await this.emailExists(entity.email)
+
+    if (documentExists && emailExists) {
+      throw new ConflictError('Both document and email already exist')
+    } else if (documentExists) {
+      throw new ConflictError('Document already exists')
+    } else if (emailExists) {
+      throw new ConflictError('Email already exists')
+    }
+
     await this.prismaService.user.create({
       data: entity.toJSON(),
     })

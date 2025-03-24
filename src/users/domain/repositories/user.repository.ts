@@ -5,4 +5,5 @@ export interface IUserRepositoryInterface
   extends IRepositoryInterface<UserEntity> {
   findByEmail(email: string): Promise<UserEntity>
   emailExists(email: string): Promise<boolean>
+  documentExists(document: string): Promise<boolean>
 }
