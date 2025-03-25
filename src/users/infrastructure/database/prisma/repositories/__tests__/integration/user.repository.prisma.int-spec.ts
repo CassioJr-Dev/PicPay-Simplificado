@@ -8,6 +8,8 @@ import { UserEntity } from '@/users/domain/entities/user.entity'
 import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.service'
 import { UserModelMapper } from '../../../models/user.model.mapper'
 import { UserType } from '@/users/domain/enums/user.type.enum'
+import { ConflictError } from '@/shared/domain/errors/conflict-error'
+import { randomUUID } from 'node:crypto'
 
 describe('UserPrismaRepository integration tests', () => {
   const prismaService = new PrismaService()
@@ -49,6 +51,34 @@ describe('UserPrismaRepository integration tests', () => {
     const result = UserModelMapper.toEntity(output)
 
     expect(result.toJSON()).toStrictEqual(entity.toJSON())
+  })
+
+  it('should return error insert a new entity', async () => {
+    const dataBuilder = UserDataBuilder({})
+    const entity = new UserEntity(dataBuilder)
+    await sut.insert(entity)
+
+    await expect(() =>
+      sut.insert(new UserEntity(dataBuilder, randomUUID())),
+    ).rejects.toThrowError(ConflictError)
+
+    await expect(async () =>
+      sut.insert(new UserEntity(dataBuilder, randomUUID())),
+    ).rejects.toThrow(
+      new ConflictError('Both document and email already exist'),
+    )
+
+    await expect(() =>
+      sut.insert(
+        new UserEntity({ ...UserDataBuilder({ document: entity.document }) }),
+      ),
+    ).rejects.toThrow(new ConflictError('Document already exists'))
+
+    await expect(() =>
+      sut.insert(
+        new UserEntity({ ...UserDataBuilder({ email: entity.email }) }),
+      ),
+    ).rejects.toThrow(new ConflictError('Email already exists'))
   })
 
   it('should returns all users', async () => {
@@ -101,6 +131,16 @@ describe('UserPrismaRepository integration tests', () => {
     })
 
     const output = await sut.emailExists(entity.email)
+    expect(output).toBeTruthy()
+  })
+
+  it('you must check if the document exists', async () => {
+    const entity = new UserEntity(UserDataBuilder({}))
+    await prismaService.user.create({
+      data: entity.toJSON(),
+    })
+
+    const output = await sut.documentExists(entity.document)
     expect(output).toBeTruthy()
   })
 
