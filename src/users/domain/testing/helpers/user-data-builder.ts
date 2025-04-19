@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/.'
 import { UserType } from '../../enums/user.type.enum'
 import { UserProps } from '../../entities/user.entity'
 

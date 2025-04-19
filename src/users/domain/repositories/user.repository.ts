@@ -4,6 +4,5 @@ import { UserEntity } from '../entities/user.entity'
 export interface IUserRepositoryInterface
   extends IRepositoryInterface<UserEntity> {
   findByEmail(email: string): Promise<UserEntity>
-  emailExists(email: string): Promise<boolean>
-  documentExists(document: string): Promise<boolean>
+  findByDocument(document: string): Promise<UserEntity>
 }

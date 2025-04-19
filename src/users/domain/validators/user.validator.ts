@@ -23,7 +23,6 @@ export class UserRules {
   @IsNotEmpty()
   lastName: string
 
-  @MaxLength(14)
   @MinLength(11)
   @IsString()
   @IsNotEmpty()

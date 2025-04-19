@@ -1,7 +1,7 @@
 import { Entity } from '@/shared/domain/entities/entity'
 import { UserType } from '../enums/user.type.enum'
 import { UserValidatorFactory } from '../validators/user.validator'
-import { EntityValidationError } from '@/shared/domain/errors/validation-error'
+import { UnprocessableError } from '@/shared/domain/errors/unprocessable-error'
 
 export type UserProps = {
   firstName: string
@@ -20,14 +20,18 @@ export class UserEntity extends Entity<UserProps> {
   }
 
   updateProperty(user: Partial<UserProps>) {
+    const extractProperty = Object.fromEntries(
+      Object.entries(user).filter(([_, value]) => value !== undefined),
+    ) as Partial<UserProps>
+
     UserEntity.validate({
       ...this.props,
-      ...user,
+      ...extractProperty,
     })
 
     for (const key in user) {
       if (user[key] !== undefined) {
-        ;(this.props as any)[key] = user[key]
+        this[key] = user[key]
       }
     }
   }
@@ -92,7 +96,7 @@ export class UserEntity extends Entity<UserProps> {
     const validator = UserValidatorFactory.create()
     const isValid = validator.validate(props)
     if (!isValid) {
-      throw new EntityValidationError()
+      throw new UnprocessableError()
     }
   }
 }
