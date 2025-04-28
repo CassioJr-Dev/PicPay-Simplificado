@@ -13,3 +13,11 @@ services:
     environment:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_DB=picpaydb
+
+  redis:
+    build: ./
+    image: redis:latest
+    container_name: picpay-redis
+    restart: always
+    ports:
+      - '6379:6379'
