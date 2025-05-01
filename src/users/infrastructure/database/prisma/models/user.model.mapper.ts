@@ -1,4 +1,4 @@
-import { EntityValidationError } from '@/shared/domain/errors/validation-error'
+import { UnprocessableError } from '@/shared/domain/errors/unprocessable-error'
 import { UserEntity } from '@/users/domain/entities/user.entity'
 import { UserType } from '@/users/domain/enums/user.type.enum'
 import { User } from '@prisma/client'
@@ -22,7 +22,7 @@ export class UserModelMapper {
     try {
       return new UserEntity(data, model.id, model.createdAt)
     } catch {
-      throw new EntityValidationError('An entity not be loaded')
+      throw new UnprocessableError('An entity not be loaded')
     }
   }
 }
