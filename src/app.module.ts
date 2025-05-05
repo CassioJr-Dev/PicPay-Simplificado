@@ -7,7 +7,6 @@ import { UsersModule } from './users/presentation/users.module'
 import { TransactionController } from './transaction/presentation/transaction.controller'
 import { TransactionModule } from './transaction/presentation/transaction.module'
 import { BullModule } from '@nestjs/bull'
-import { SendEmailProvider } from './shared/infrastructure/providers/email-provider/sendEmail.provider'
 import { CqrsModule } from '@nestjs/cqrs'
 
 @Module({
