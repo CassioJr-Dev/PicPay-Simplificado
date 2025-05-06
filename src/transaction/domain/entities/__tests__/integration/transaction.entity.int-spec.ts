@@ -1,5 +1,5 @@
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder'
-import { EntityValidationError } from '@/shared/domain/errors/validation-error'
+import { UnprocessableError } from '@/shared/domain/errors/unprocessable-error'
 import { TransactionEntity, TransactionProps } from '../../transaction.entity'
 import { TransactionDataBuilder } from '@/transaction/domain/testing/helpers/transaction-data-builder'
 
@@ -11,7 +11,7 @@ describe('TransactionEntity integration tests', () => {
         amount: null,
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -19,7 +19,7 @@ describe('TransactionEntity integration tests', () => {
         amount: '' as any,
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -27,7 +27,7 @@ describe('TransactionEntity integration tests', () => {
         amount: '10' as any,
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
     })
 
@@ -37,7 +37,7 @@ describe('TransactionEntity integration tests', () => {
         senderId: null,
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -45,7 +45,7 @@ describe('TransactionEntity integration tests', () => {
         senderId: '',
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -53,7 +53,7 @@ describe('TransactionEntity integration tests', () => {
         senderId: 10 as any,
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -61,7 +61,7 @@ describe('TransactionEntity integration tests', () => {
         senderId: 'a'.repeat(256),
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
     })
     it('Should throw an error when creating a user with invalid receiverId', () => {
@@ -70,7 +70,7 @@ describe('TransactionEntity integration tests', () => {
         receiverId: null,
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -78,7 +78,7 @@ describe('TransactionEntity integration tests', () => {
         receiverId: '',
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -86,7 +86,7 @@ describe('TransactionEntity integration tests', () => {
         receiverId: 10 as any,
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
 
       props = {
@@ -94,7 +94,7 @@ describe('TransactionEntity integration tests', () => {
         receiverId: 'a'.repeat(256),
       }
       expect(() => new TransactionEntity(props)).toThrowError(
-        EntityValidationError,
+        UnprocessableError,
       )
     })
 
@@ -112,7 +112,7 @@ describe('TransactionEntity integration tests', () => {
         const entity = new TransactionEntity(TransactionDataBuilder({}))
         expect(() =>
           entity.updateProperty({ amount: 'a' as any }),
-        ).toThrowError(EntityValidationError)
+        ).toThrowError(UnprocessableError)
       })
 
       it('Should a valid transaction', () => {

@@ -1,6 +1,6 @@
 import { Entity } from '@/shared/domain/entities/entity'
 import { TransactionValidatorFactory } from '../validators/transaction.validator'
-import { EntityValidationError } from '@/shared/domain/errors/validation-error'
+import { UnprocessableError } from '@/shared/domain/errors/unprocessable-error'
 
 export type TransactionProps = {
   amount: number
@@ -55,7 +55,7 @@ export class TransactionEntity extends Entity<TransactionProps> {
     const validator = TransactionValidatorFactory.create()
     const isValid = validator.validate(props)
     if (!isValid) {
-      throw new EntityValidationError()
+      throw new UnprocessableError()
     }
   }
 }
