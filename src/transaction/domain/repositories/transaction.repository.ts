@@ -2,8 +2,8 @@ import { IRepositoryInterface } from '@/shared/domain/repositories/repository-co
 import { TransactionEntity } from '../entities/transaction.entity'
 
 export interface ITransactionRepositoryInterface
-  extends Partial<IRepositoryInterface<TransactionEntity>> {
+  extends Omit<IRepositoryInterface<TransactionEntity>, 'update'> {
   debit(userId: string, amount: number, tx?: any): Promise<void>
   credit(userId: string, amount: number, tx?: any): Promise<void>
-  transfer(entity: TransactionEntity): Promise<TransactionEntity>
+  transfer(entity: TransactionEntity): Promise<TransactionEntity | void>
 }
