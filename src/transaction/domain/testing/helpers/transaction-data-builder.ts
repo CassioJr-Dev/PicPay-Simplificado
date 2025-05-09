@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/.'
 import { randomUUID } from 'node:crypto'
 import { TransactionProps } from '../../entities/transaction.entity'
 
