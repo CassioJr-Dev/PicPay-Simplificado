@@ -10,8 +10,12 @@ export class TransactionPrismaRepository
 {
   constructor(private prismaService: PrismaService) {}
 
-  async insert(entity: TransactionEntity): Promise<TransactionEntity> {
-    const transferSave = await this.prismaService.transaction.create({
+  async insert(
+    entity: TransactionEntity,
+    tx?: Prisma.TransactionClient,
+  ): Promise<TransactionEntity> {
+    const prismaService = tx || this.prismaService
+    const transferSave = await prismaService.transaction.create({
       data: entity.toJSON(),
     })
 
@@ -44,16 +48,15 @@ export class TransactionPrismaRepository
     })
   }
 
-  async transfer(entity: TransactionEntity): Promise<TransactionEntity> {
+  async transfer(entity: TransactionEntity): Promise<void> {
     try {
       await this.prismaService.$transaction(async tx => {
         await this.debit(entity.senderId, entity.amount, tx)
         await this.credit(entity.receiverId, entity.amount, tx)
+        await this.insert(entity, tx)
       })
-
-      return this.insert(entity)
     } catch (error) {
-      throw new TransactionError('Transfer error')
+      throw new TransactionError(`Transfer Error: ${error}`)
     }
   }
 
@@ -61,11 +64,17 @@ export class TransactionPrismaRepository
     const transaction = await this.prismaService.transaction.findUnique({
       where: { id },
     })
-    return TransactionModelMapper.toEntity(transaction)
+    return transaction
+      ? TransactionModelMapper.toEntity(transaction)
+      : undefined
   }
 
-  async findAll(): Promise<TransactionEntity[]> {
-    const models = await this.prismaService.transaction.findMany()
+  async findAll(userId?: string): Promise<TransactionEntity[]> {
+    const models = await this.prismaService.transaction.findMany({
+      where: {
+        OR: [{ senderId: userId }, { receiverId: userId }],
+      },
+    })
     return models.map(model => TransactionModelMapper.toEntity(model))
   }
 
