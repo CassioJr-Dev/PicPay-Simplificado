@@ -1,0 +1,12 @@
+import { UserType } from '@/users/domain/enums/user.type.enum'
+
+export class UpdateUserCommand {
+  id: string
+  firstName?: string
+  lastName?: string
+  document?: string
+  email?: string
+  balance?: number
+  password?: string
+  userType?: UserType
+}
