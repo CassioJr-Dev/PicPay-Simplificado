@@ -1,6 +1,5 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs'
 import { UserSendEmailEvent } from './user-send-email.event'
-import { IUserRepositoryInterface } from '@/users/domain/repositories/user.repository'
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
 

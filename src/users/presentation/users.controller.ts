@@ -4,19 +4,12 @@ import {
   Delete,
   Get,
   HttpCode,
-  Inject,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
   Query,
 } from '@nestjs/common'
-import { CreateUserHandler } from '../application/usecases/commands/create/create-user.handler'
-import { UpdateUserHandler } from '../application/usecases/commands/update/update-user.handler'
-import { DeleteUserHandler } from '../application/usecases/commands/delete/delete-user.handler'
-import { GetUserByDocumentHandler } from '../application/usecases/queries/getByDocument/getByDocument-user.handler'
-import { GetUserByEmailHandler } from '../application/usecases/queries/getByEmail/getByEmail-user.handler'
-import { GetUserByIdHandler } from '../application/usecases/queries/getById/getById-user.handler'
 import { CreateUserDto } from './dtos/create-user.dto'
 import { UpdateUserDto } from './dtos/update-user.dto'
 import { DeleteUserDto } from './dtos/delete-user.dto'

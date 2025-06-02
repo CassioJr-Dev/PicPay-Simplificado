@@ -7,11 +7,11 @@ import { ITransactionRepositoryInterface } from '@/transaction/domain/repositori
 import { NotFoundError } from '@/shared/domain/errors/not-found-error'
 import { UserType } from '@/users/domain/enums/user.type.enum'
 import { ForbiddenError } from '@/shared/domain/errors/forbidden-error'
-import { authorizeTransfer } from '@/transaction/infrastructure/services/authorizeService'
 import { TransactionEntity } from '@/transaction/domain/entities/transaction.entity'
 import { EntityEventBase } from '@/shared/domain/entities/entity-event-base'
 import { TransactionSendEmailEvent } from '@/transaction/application/events/emailEvent/transaction-send-email.event'
 import { Inject } from '@nestjs/common'
+import { TransferAuthorizationService } from '@/transaction/infrastructure/services/authorizeService'
 
 @CommandHandler(CreateTransferCommand)
 export class CreateTransferHandler
@@ -41,14 +41,15 @@ export class CreateTransferHandler
     }
 
     if (sender.userType === UserType.LOGIST) {
-      throw new ForbiddenError('The lojist cannot send transfers.')
+      throw new ForbiddenError('The lojist cannot send transfers')
     }
 
     if (sender.balance < command.amount) {
-      throw new BadRequestError('Insufficient balance to make the transfer.')
+      throw new BadRequestError('Insufficient balance to make the transfer')
     }
 
-    const { status, authorization } = await authorizeTransfer()
+    const { status, authorization } =
+      await TransferAuthorizationService.authorize()
 
     if (status === 'fail' && authorization === false) {
       throw new ForbiddenError(`Transfer ${status}`)

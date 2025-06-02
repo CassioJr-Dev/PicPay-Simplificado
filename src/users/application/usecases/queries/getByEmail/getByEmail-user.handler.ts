@@ -1,4 +1,3 @@
-import { UserEntity } from '@/users/domain/entities/user.entity'
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
 import { GetByEmailQuery } from './getByEmail-user.query'
 import { IUserRepositoryInterface } from '@/users/domain/repositories/user.repository'
