@@ -23,8 +23,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
 } from '@nestjs/swagger'
-import { TransactionOutputDto } from '../application/usecases/queries/dtos/transaction-output.dto'
-import { ResponseTransactionDto } from './dtos/response-transaction.dto'
+import { TransactionResponseDto } from './dtos/response-transaction.dto'
 
 @Controller('transaction')
 export class TransactionController {
@@ -34,7 +33,7 @@ export class TransactionController {
   ) {}
 
   @ApiCreatedResponse({
-    type: ResponseTransactionDto,
+    type: TransactionResponseDto,
   })
   @ApiNotFoundResponse({
     description: `User not found with: senderId || reiceverId`,
@@ -73,7 +72,7 @@ export class TransactionController {
     description: `Field id is required`,
   })
   @ApiOkResponse({
-    type: ResponseTransactionDto,
+    type: TransactionResponseDto,
   })
   @Get(':id')
   async findTransactionById(@Param('id', ParseUUIDPipe) id: string) {
@@ -82,7 +81,7 @@ export class TransactionController {
   }
 
   @ApiOkResponse({
-    type: [ResponseTransactionDto],
+    type: [TransactionResponseDto],
   })
   @ApiBadRequestResponse({
     description: `Field userId is required`,
@@ -95,7 +94,7 @@ export class TransactionController {
 
   @ApiNoContentResponse()
   @ApiBadRequestResponse({
-    description: `Field dcoument is required`,
+    description: `Field document is required`,
   })
   @ApiNotFoundResponse({
     description: 'Transaction not found with id',

@@ -5,6 +5,7 @@ import { BadRequestError } from '@/shared/domain/errors/bad-request-error'
 import { IHashProvider } from '@/users/domain/providers/hash-provider'
 import { UnauthorizedError } from '@/shared/domain/errors/Unathorized-error'
 import { Inject } from '@nestjs/common'
+import { NotFoundError } from '@/shared/domain/errors/not-found-error'
 
 @CommandHandler(DeleteUserCommand)
 export class DeleteUserHandler
@@ -22,11 +23,11 @@ export class DeleteUserHandler
 
     const user = await this.userRepository.findById(command.id)
     if (!user) {
-      throw new BadRequestError('User not found')
+      throw new NotFoundError('User not found')
     }
 
     if (user.email !== command.email) {
-      throw new BadRequestError('Email does not match the user ID')
+      throw new BadRequestError('Email does not match the user Id')
     }
 
     const compareHash = await this.hashProvider.compareHash(

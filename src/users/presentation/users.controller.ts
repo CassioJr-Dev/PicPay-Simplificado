@@ -21,6 +21,17 @@ import { GetUserByIdQuery } from '../application/usecases/queries/getById/getByI
 import { GetByDocumentQuery } from '../application/usecases/queries/getByDocument/getByDocument-user.query'
 import { GetByEmailQuery } from '../application/usecases/queries/getByEmail/getByEmail-user.query'
 import { DeleteUserCommand } from '../application/usecases/commands/delete/delete-user.command'
+import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger'
+import { UserResponseDto } from './dtos/response-user.dto'
 
 @Controller('users')
 export class UsersController {
@@ -29,6 +40,15 @@ export class UsersController {
     private readonly commandBus: CommandBus,
   ) {}
 
+  @ApiCreatedResponse({
+    type: UserResponseDto,
+  })
+  @ApiConflictResponse({
+    description: 'User already exists: Email || Document',
+  })
+  @ApiBadRequestResponse({
+    description: `Field is required`,
+  })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const command = plainToClass(CreateUserCommand, createUserDto)
@@ -38,6 +58,18 @@ export class UsersController {
     return this.queryBus.execute(query)
   }
 
+  @ApiOkResponse({
+    type: UserResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: `Field is required`,
+  })
+  @ApiBadRequestResponse({
+    description: `At least one property must be provided`,
+  })
+  @ApiNotFoundResponse({
+    description: 'User with id not found',
+  })
   @Patch(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -50,24 +82,64 @@ export class UsersController {
     return this.queryBus.execute(query)
   }
 
+  @ApiOkResponse({
+    type: UserResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: `Field is required`,
+  })
+  @ApiNotFoundResponse({
+    description: 'User with id not found',
+  })
   @Get('id/:id')
   async findUserById(@Param('id', ParseUUIDPipe) id: string) {
     const query = plainToClass(GetUserByIdQuery, { id })
     return this.queryBus.execute(query)
   }
 
+  @ApiOkResponse({
+    type: UserResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: `Field is required`,
+  })
+  @ApiNotFoundResponse({
+    description: 'User with document not found',
+  })
   @Get('find-document')
   async findUserByDocument(@Query('document') document: string) {
     const query = plainToClass(GetByDocumentQuery, { document })
     return this.queryBus.execute(query)
   }
 
+  @ApiOkResponse({
+    type: UserResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: `Field is required`,
+  })
+  @ApiNotFoundResponse({
+    description: 'User with email not found',
+  })
   @Get('find-email')
   async findUserByEmail(@Query('email') email: string) {
     const query = plainToClass(GetByEmailQuery, { email })
     return this.queryBus.execute(query)
   }
 
+  @ApiNoContentResponse()
+  @ApiUnauthorizedResponse({
+    description: 'Invalid credentials',
+  })
+  @ApiBadRequestResponse({
+    description: `Field is required`,
+  })
+  @ApiBadRequestResponse({
+    description: `Email does not match the user Id`,
+  })
+  @ApiNotFoundResponse({
+    description: 'User not found',
+  })
   @HttpCode(204)
   @Delete(':id')
   async delete(

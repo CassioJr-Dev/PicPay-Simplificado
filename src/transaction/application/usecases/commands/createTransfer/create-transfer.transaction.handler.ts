@@ -67,7 +67,7 @@ export class CreateTransferHandler
         ${entity.amount} reais from ${sender.firstName} ${sender.lastName}`,
       ),
     )
-    await this.eventDispatcher.dispatch(eventBase)
+    this.eventDispatcher.dispatch(eventBase)
 
     return entity.id
   }
