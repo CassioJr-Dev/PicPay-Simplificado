@@ -52,7 +52,7 @@ export class UpdateUserHandler
 
     const eventBase = new EntityEventBase()
     eventBase.addEvent(new UserSendEmailEvent(updateData.id, 'User Updated'))
-    this.eventDispatcher.dispatch(eventBase)
+    await this.eventDispatcher.dispatch(eventBase)
 
     return updateData.id
   }

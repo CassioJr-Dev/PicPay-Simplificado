@@ -92,7 +92,9 @@ export class TransactionController {
     return this.queryBus.execute(query)
   }
 
-  @ApiNoContentResponse()
+  @ApiNoContentResponse({
+    description: 'No Content',
+  })
   @ApiBadRequestResponse({
     description: `Field document is required`,
   })

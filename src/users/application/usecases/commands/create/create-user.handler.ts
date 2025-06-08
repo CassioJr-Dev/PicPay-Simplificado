@@ -47,7 +47,7 @@ export class CreateUserHandler
 
     const eventBase = new EntityEventBase()
     eventBase.addEvent(new UserSendEmailEvent(entity.id, 'User Created'))
-    this.eventDispatcher.dispatch(eventBase)
+    await this.eventDispatcher.dispatch(eventBase)
 
     return entity.id
   }

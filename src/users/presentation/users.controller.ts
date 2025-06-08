@@ -127,7 +127,9 @@ export class UsersController {
     return this.queryBus.execute(query)
   }
 
-  @ApiNoContentResponse()
+  @ApiNoContentResponse({
+    description: 'No Content',
+  })
   @ApiUnauthorizedResponse({
     description: 'Invalid credentials',
   })
