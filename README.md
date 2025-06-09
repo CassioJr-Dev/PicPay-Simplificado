@@ -27,6 +27,7 @@ O PicPay Simplificado permite:
 - **NestJS**: Framework principal para construção da API.
 - **TypeScript**: Tipagem estática e robustez no desenvolvimento.
 - **Prisma ORM**: Acesso e manipulação do banco de dados relacional.
+- **PostgreSQL**: Banco de dados relacional.
 - **Clean Architecture**: Para organizar a estrutura do sistema.
 - **Princípios SOLID**: Para criar códigos de alta qualidade, flexíveis, fáceis de manter e testar.
 - **CQRS (Command Query Responsibility Segregation)**: Separação clara entre comandos (escrita) e queries (leitura).
