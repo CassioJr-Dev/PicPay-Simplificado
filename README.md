@@ -35,6 +35,7 @@ O PicPay Simplificado permite:
 - **Eventos de Domínio**: Notificações e integrações desacopladas.
 - **Bull + Redis**: Gerenciamento de filas para tarefas assíncronas que nesse caso são para fzer o envio da notificação em segundo plano.
 - **Swagger**: Documentação da API.
+- **Docker**: Usado para subir um servidor do banco de dados em ambiente de desenvolvimento.
 - **Cluster no Node.js**: Usado para distribuir a carga de trabalho entre múltiplos processos (workers), aproveitando todos os núcleos de CPU disponíveis, e melhorar o desempenho e a escalabilidade da aplicação.
 
 ---
