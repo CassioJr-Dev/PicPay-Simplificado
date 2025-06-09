@@ -77,8 +77,8 @@ Acesse a documentação Swagger para explorar todos os endpoints e exemplos de u
 
 ## 👨‍💻 Autor
 
-- Nome: _[Seu Nome]_
-- LinkedIn: _[Seu LinkedIn]_
+- Nome: _Cássio da Silva_
+- LinkedIn: _(https://www.linkedin.com/in/c%C3%A1ssio-da-silva/)_
 
 ---
 
